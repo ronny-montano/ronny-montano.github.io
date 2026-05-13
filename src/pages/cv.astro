@@ -3,36 +3,81 @@ import Layout from '../layouts/Layout.astro';
 
 const experience = [
   {
-    role: 'Tu puesto actual',
-    company: 'Empresa actual',
-    period: '2023 — Actualidad',
+    role: 'Odoo Engineer | Python · OWL',
+    company: 'Process Control',
+    period: 'Sept. 2024 — Actualidad',
+    location: 'España',
     bullets: [
-      'Responsabilidad o logro 1.',
-      'Responsabilidad o logro 2.',
+      'Desarrollo y personalización de soluciones empresariales en Odoo.',
+      'Trabajo con Python y el framework OWL para extender funcionalidad del ERP.',
     ],
   },
   {
-    role: 'Puesto anterior',
-    company: 'Empresa anterior',
-    period: '2020 — 2023',
+    role: 'Desarrollador de software',
+    company: 'Binhex',
+    period: 'Feb. 2024 — Sept. 2024',
+    location: 'Remoto',
     bullets: [
-      'Responsabilidad o logro 1.',
+      'Desarrollo de módulos y personalizaciones sobre Odoo.',
+      'Implementación de componentes front-end con OWL.',
+    ],
+  },
+  {
+    role: 'Odoo developer',
+    company: 'Grupo Empresarial JUMO',
+    period: 'Oct. 2022 — Ene. 2024',
+    location: 'México · Remoto',
+    bullets: [
+      'Desarrollo de soluciones Odoo y APIs con Django REST framework.',
+      'Trabajo con Dart/Flutter para aplicaciones móviles asociadas al ERP.',
+    ],
+  },
+  {
+    role: 'Desarrollador de software',
+    company: 'Desoft',
+    period: 'Oct. 2017 — Sept. 2022',
+    location: 'La Habana, Cuba',
+    bullets: [
+      'Desarrollo backend con Django REST framework y frontend con Dart.',
+      'Participación en proyectos empresariales de gestión.',
+    ],
+  },
+  {
+    role: 'Desarrollador de software para web',
+    company: 'Universidad de las Ciencias Informáticas',
+    period: 'Sept. 2016 — Oct. 2017',
+    location: 'La Habana, Cuba',
+    bullets: [
+      'Desarrollo web con Django y Python.',
     ],
   },
 ];
 
-const education = [
-  {
-    title: 'Título / Grado',
-    school: 'Institución',
-    period: '20XX — 20XX',
-  },
+const skills = [
+  'Odoo',
+  'Python',
+  'OWL',
+  'Django',
+  'Django REST framework',
+  'Flutter',
+  'Dart',
+  'PostgreSQL',
+  'JavaScript',
 ];
 
-const skills = ['Odoo', 'Python', 'PostgreSQL', 'JavaScript', 'Linux'];
+const services = [
+  'Desarrollo de aplicaciones',
+  'Desarrollo de base de datos',
+  'Desarrollo de iOS',
+  'Desarrollo de software personalizado',
+  'Desarrollo web',
+  'Gestión de contenido empresarial',
+  'Gestión en la nube',
+];
 ---
-<Layout title="CV — Ronny Montano" description="Experiencia y formación de Ronny Montano">
+<Layout title="CV — Ronny Montano" description="Experiencia profesional, habilidades y servicios de Ronny Montano.">
   <h1>CV</h1>
+  <p class="muted">Trayectoria profesional y áreas de especialización.</p>
 
   <h2>Experiencia</h2>
   {experience.map((job) => (
@@ -41,20 +86,10 @@ const skills = ['Odoo', 'Python', 'PostgreSQL', 'JavaScript', 'Linux'];
         <strong>{job.role} · {job.company}</strong>
         <span class="muted">{job.period}</span>
       </div>
-      <ul class="clean" style="margin-top: 0.5rem;">
+      <div class="muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">{job.location}</div>
+      <ul class="clean">
         {job.bullets.map((b) => <li>• {b}</li>)}
       </ul>
-    </div>
-  ))}
-
-  <h2>Formación</h2>
-  {education.map((e) => (
-    <div class="card">
-      <div class="row">
-        <strong>{e.title}</strong>
-        <span class="muted">{e.period}</span>
-      </div>
-      <div class="muted">{e.school}</div>
     </div>
   ))}
 
@@ -63,7 +98,8 @@ const skills = ['Odoo', 'Python', 'PostgreSQL', 'JavaScript', 'Linux'];
     {skills.map((s) => <span class="tag">{s}</span>)}
   </div>
 
-  <p class="muted" style="margin-top: 2rem;">
-    <small>Edita esta página en <code>src/pages/cv.astro</code>.</small>
-  </p>
+  <h2>Servicios</h2>
+  <ul class="clean">
+    {services.map((s) => <li>• {s}</li>)}
+  </ul>
 </Layout>

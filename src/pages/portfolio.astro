@@ -1,29 +1,40 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const projects = [
+const featured = [
   {
-    name: 'Nombre del proyecto 1',
-    summary: 'Una descripción breve (1-2 frases) explicando qué hace y tu rol.',
-    tags: ['Odoo', 'Python'],
-    link: 'https://example.com',
+    name: 'Canal de YouTube — @ronny-montano',
+    summary:
+      'Tutoriales, casos prácticos y tips de Odoo, Flutter y desarrollo Python. Más de 2.600 seguidores entre LinkedIn y YouTube.',
+    tags: ['YouTube', 'Odoo', 'Flutter', 'Python'],
+    link: 'https://www.youtube.com/@ronny-montano',
   },
   {
-    name: 'Nombre del proyecto 2',
-    summary: 'Otra descripción breve. Cambia o añade tantos como quieras.',
-    tags: ['Astro', 'Frontend'],
-    link: null,
+    name: 'OWL 3: Domina la Reactividad por Signals en Odoo 17, 18 y 19',
+    summary:
+      'Video explicando el framework OWL y la nueva reactividad basada en signals en las últimas versiones de Odoo.',
+    tags: ['Odoo', 'OWL', 'Frontend'],
+    link: 'https://www.youtube.com/@ronny-montano',
+  },
+  {
+    name: 'Tests Unitarios en Odoo',
+    summary:
+      'Serie sobre cómo escribir tests unitarios robustos en Odoo: de romper producción a dormir tranquilo.',
+    tags: ['Odoo', 'Testing', 'Python'],
+    link: 'https://www.youtube.com/@ronny-montano',
   },
 ];
 ---
-<Layout title="Portfolio — Ronny Montano" description="Proyectos destacados de Ronny Montano">
+<Layout title="Portfolio — Ronny Montano" description="Trabajos y contenido destacado de Ronny Montano.">
   <h1>Portfolio</h1>
-  <p class="muted">Una selección de proyectos en los que he trabajado.</p>
+  <p class="muted">
+    Una selección de contenido técnico y proyectos en los que comparto experiencia sobre Odoo, OWL y Flutter.
+  </p>
 
-  {projects.map((p) => (
+  {featured.map((p) => (
     <div class="card">
       <h3>
-        {p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer">{p.name}</a> : p.name}
+        <a href={p.link} target="_blank" rel="noopener noreferrer">{p.name}</a>
       </h3>
       <p>{p.summary}</p>
       <div>
@@ -32,7 +43,8 @@ const projects = [
     </div>
   ))}
 
-  <p class="muted">
-    <small>Edita la lista en <code>src/pages/portfolio.astro</code>.</small>
+  <p class="muted" style="margin-top: 2rem;">
+    También puedes ver mis repositorios públicos en
+    <a href="https://github.com/ronny-montano" target="_blank" rel="noopener noreferrer">GitHub</a>.
   </p>
 </Layout>

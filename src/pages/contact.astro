@@ -2,27 +2,47 @@
 import Layout from '../layouts/Layout.astro';
 
 const links = [
-  { label: 'Email', value: 'ronny.montano@processcontrol.es', href: 'mailto:ronny.montano@processcontrol.es' },
-  { label: 'GitHub', value: '@ronny-montano', href: 'https://github.com/ronny-montano' },
-  { label: 'LinkedIn', value: 'añade tu perfil', href: 'https://www.linkedin.com/' },
+  {
+    label: 'Email',
+    value: 'ronny.montano@processcontrol.es',
+    href: 'mailto:ronny.montano@processcontrol.es',
+  },
+  {
+    label: 'LinkedIn',
+    value: 'linkedin.com/in/ronny-montano',
+    href: 'https://www.linkedin.com/in/ronny-montano/',
+  },
+  {
+    label: 'YouTube',
+    value: '@ronny-montano',
+    href: 'https://www.youtube.com/@ronny-montano',
+  },
+  {
+    label: 'GitHub',
+    value: '@ronny-montano',
+    href: 'https://github.com/ronny-montano',
+  },
 ];
 ---
-<Layout title="Contacto — Ronny Montano" description="Cómo contactar con Ronny Montano">
+<Layout title="Contacto — Ronny Montano" description="Formas de contactar con Ronny Montano.">
   <h1>Contacto</h1>
-  <p>La mejor forma de localizarme:</p>
+  <p>
+    Si quieres hablar sobre Odoo, Flutter, una colaboración o cualquier tema técnico, escríbeme por
+    cualquiera de estos canales:
+  </p>
 
   <ul class="clean">
     {links.map((l) => (
       <li>
         <strong>{l.label}:</strong>{' '}
-        <a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
+        <a
+          href={l.href}
+          target={l.href.startsWith('http') ? '_blank' : undefined}
+          rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        >
           {l.value}
         </a>
       </li>
     ))}
   </ul>
-
-  <p class="muted" style="margin-top: 2rem;">
-    <small>Edita esta página en <code>src/pages/contact.astro</code>.</small>
-  </p>
 </Layout>
