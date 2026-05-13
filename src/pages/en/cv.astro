@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CvContent from '../../components/CvContent.astro';
+import { content, getLangFromUrl } from '../../i18n/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = content[lang].cv;
+---
+<Layout title={t.meta.title} description={t.meta.description}>
+  <CvContent />
+</Layout>

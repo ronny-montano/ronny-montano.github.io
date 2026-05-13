@@ -1,15 +1,27 @@
 ---
 import '../styles/global.css';
+import { content, getLangFromUrl, localizedPath, stripLangPrefix, langs, defaultLang } from '../i18n/content';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = 'Ronny Montano — sitio personal' } = Astro.props;
+const { title, description } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = content[lang];
+const desc = description ?? t.home.meta.description;
+
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const cleanPath = stripLangPrefix(path);
+
 const siteUrl = 'https://ronny-montano.github.io';
 const canonical = new URL(path === '/' ? '/' : path + '/', siteUrl).toString();
+
+const alternates = langs.map((l) => ({
+  lang: l,
+  href: new URL(localizedPath(cleanPath, l).replace(/\/$/, '') + '/', siteUrl).toString(),
+}));
 
 const sameAs = [
   'https://www.linkedin.com/in/ronny-montano/',
@@ -36,30 +48,44 @@ const personSchema = {
 const googleSiteVerification = '';
 
 const nav = [
-  { href: '/', label: 'Sobre mí' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/cv', label: 'CV' },
-  { href: '/contact', label: 'Contacto' },
+  { href: localizedPath('/', lang),          label: t.nav.home,      match: '/' },
+  { href: localizedPath('/portfolio', lang), label: t.nav.portfolio, match: '/portfolio' },
+  { href: localizedPath('/cv', lang),        label: t.nav.cv,        match: '/cv' },
+  { href: localizedPath('/contact', lang),   label: t.nav.contact,   match: '/contact' },
 ];
+
+function isActive(matchPath: string) {
+  if (matchPath === '/') return cleanPath === '/';
+  return cleanPath.startsWith(matchPath);
+}
+
+const otherLang = lang === 'es' ? 'en' : 'es';
+const otherLangHref = localizedPath(cleanPath, otherLang);
 ---
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
-    <meta name="description" content={description} />
+    {alternates.map((a) => (
+      <link rel="alternate" hreflang={a.lang} href={a.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
+    <meta name="description" content={desc} />
     <meta name="author" content="Ronny Montano" />
     {googleSiteVerification && (
       <meta name="google-site-verification" content={googleSiteVerification} />
     )}
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={desc} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Ronny Montano" />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_ES'} />
     {sameAs.map((url) => <link rel="me" href={url} />)}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -75,16 +101,18 @@ const nav = [
   <body>
     <header class="site-header">
       <div class="inner">
-        <a class="brand" href="/">Ronny Montano</a>
+        <a class="brand" href={localizedPath('/', lang)}>Ronny Montano</a>
         <nav>
           {nav.map((item) => (
-            <a
-              href={item.href}
-              class={path === item.href || (item.href !== '/' && path.startsWith(item.href)) ? 'active' : ''}
-            >
+            <a href={item.href} class={isActive(item.match) ? 'active' : ''}>
               {item.label}
             </a>
           ))}
+          <a class="lang-switch" href={otherLangHref} aria-label={t.switcher.aria}>
+            <span class="lang-current">{lang === 'es' ? t.switcher.es : t.switcher.en}</span>
+            <span class="lang-sep" aria-hidden="true">·</span>
+            <span class="lang-other">{lang === 'es' ? t.switcher.en : t.switcher.es}</span>
+          </a>
         </nav>
       </div>
     </header>
@@ -94,7 +122,7 @@ const nav = [
     <footer class="site-footer">
       <div class="inner">
         <span>© {new Date().getFullYear()} Ronny Montano</span>
-        <span class="muted mono" style="font-size: 0.78rem;">Hecho con Astro</span>
+        <span class="muted mono" style="font-size: 0.78rem;">{t.footer.credit}</span>
       </div>
     </footer>
 
@@ -115,5 +143,24 @@ const nav = [
         document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
       })();
     </script>
+
+    <style>
+      .lang-switch {
+        margin-left: 0.4rem;
+        padding: 0.4rem 0.7rem !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+      .lang-switch:hover { background: var(--accent-soft); color: var(--fg); }
+      .lang-current { color: var(--fg); }
+      .lang-sep { color: var(--border-strong); }
+      .lang-other { color: var(--muted); }
+    </style>
   </body>
 </html>

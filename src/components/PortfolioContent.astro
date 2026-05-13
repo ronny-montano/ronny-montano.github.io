@@ -1,0 +1,242 @@
+---
+import { fetchLatestVideos } from '../lib/youtube.ts';
+import { content, getLangFromUrl } from '../i18n/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = content[lang].portfolio;
+
+const videos = await fetchLatestVideos(4);
+const dateFmt = new Intl.DateTimeFormat(t.dateLocale, {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+---
+<section class="hero">
+  <p class="kicker fade-in">{t.kicker}</p>
+  <h1 class="display fade-in delay-1">
+    {t.headline[0]}<br />
+    <span class="grad">{t.headline[1]}</span>{t.headline[2]}
+  </h1>
+  <p class="lede fade-in delay-2">{t.lede}</p>
+  <a class="btn btn-primary fade-in delay-3" href="https://www.youtube.com/@ronny-montano" target="_blank" rel="noopener noreferrer">
+    {t.cta}
+    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+      <path fill="currentColor" d="M6 12.5l4.5-4.5L6 3.5v9z" />
+    </svg>
+  </a>
+</section>
+
+{videos.length > 0 && (
+  <section data-reveal>
+    <h2>{t.videosTitle}</h2>
+    <div class="videos">
+      {videos.map((v) => (
+        <a class="video" href={v.url} target="_blank" rel="noopener noreferrer">
+          <div class="thumb-wrap">
+            <img src={v.thumbnail} alt={v.title} loading="lazy" />
+            <div class="play-overlay" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="40" height="40">
+                <circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.6)"/>
+                <path fill="white" d="M10 8l6 4-6 4z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="video-meta">
+            <h3>{v.title}</h3>
+            <time class="mono" datetime={v.published}>{dateFmt.format(new Date(v.published))}</time>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<section data-reveal>
+  <h2>{t.projectsTitle}</h2>
+  <div class="projects">
+    {t.projects.map((p) => (
+      <article class="project">
+        <header>
+          <h3>
+            {p.link
+              ? <a class="link-fancy" href={p.link} target="_blank" rel="noopener noreferrer">{p.name} <span class="arrow">↗</span></a>
+              : p.name}
+          </h3>
+          <span class="muted mono">{p.period}</span>
+        </header>
+        <p>{p.summary}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section data-reveal class="more">
+  <p>
+    {t.moreLine}
+    <a class="link-fancy" href="https://github.com/ronny-montano" target="_blank" rel="noopener noreferrer">
+      github.com/ronny-montano
+    </a>.
+  </p>
+</section>
+
+<style>
+  .hero {
+    padding: 2.5rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10%;
+    width: 60%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+    z-index: -1;
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .kicker {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+    font-weight: 600;
+  }
+
+  .display {
+    font-size: clamp(2rem, 1rem + 4vw, 3.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin: 0 0 1.25rem;
+    font-weight: 700;
+  }
+
+  .grad {
+    background: linear-gradient(120deg, var(--accent) 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 38rem;
+    margin: 0 0 1.75rem;
+  }
+
+  .videos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 540px) {
+    .videos { grid-template-columns: 1fr; }
+  }
+
+  .video { color: var(--fg); display: block; }
+  .video:hover { text-decoration: none; }
+  .video:hover h3 { color: var(--accent); }
+
+  .thumb-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--border);
+    margin-bottom: 0.8rem;
+    border: 1px solid var(--border);
+  }
+
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--dur) var(--ease-out);
+    pointer-events: none;
+  }
+
+  .video:hover .thumb-wrap img { transform: scale(1.04); }
+  .video:hover .play-overlay { opacity: 1; }
+
+  .video-meta h3 {
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0 0 0.3rem;
+    transition: color var(--dur) var(--ease-out);
+  }
+
+  .video-meta time {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .projects { display: flex; flex-direction: column; }
+
+  .project {
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--border);
+    transition: background var(--dur) var(--ease-out);
+  }
+
+  .project:last-child { border-bottom: 1px solid var(--border); }
+
+  .project header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .project h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .project h3 a { color: var(--fg); }
+  .project h3 a:hover { color: var(--accent); }
+
+  .project .arrow {
+    display: inline-block;
+    transition: transform var(--dur) var(--ease-out);
+  }
+
+  .project h3 a:hover .arrow { transform: translate(2px, -2px); }
+
+  .project p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 44rem;
+  }
+
+  .more {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 1rem;
+  }
+</style>
