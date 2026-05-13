@@ -1,50 +1,247 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { fetchLatestVideos } from '../lib/youtube.ts';
 
-const featured = [
+const videos = await fetchLatestVideos(4);
+
+const projects = [
   {
-    name: 'Canal de YouTube — @ronny-montano',
+    name: 'Ok Located',
+    period: 'Mar. 2022 — Sept. 2022',
     summary:
-      'Tutoriales, casos prácticos y tips de Odoo, Flutter y desarrollo Python. Más de 2.600 seguidores entre LinkedIn y YouTube.',
-    tags: ['YouTube', 'Odoo', 'Flutter', 'Python'],
-    link: 'https://www.youtube.com/@ronny-montano',
+      'Plataforma tecnológica móvil basada en Bluetooth que ofrece soluciones y servicios gratuitos a través de pequeños dispositivos inteligentes (beacons).',
   },
   {
-    name: 'OWL 3: Domina la Reactividad por Signals en Odoo 17, 18 y 19',
+    name: 'RentalHo Pay',
+    period: 'Jun. 2022 — Ago. 2022',
     summary:
-      'Video explicando el framework OWL y la nueva reactividad basada en signals en las últimas versiones de Odoo.',
-    tags: ['Odoo', 'OWL', 'Frontend'],
-    link: 'https://www.youtube.com/@ronny-montano',
-  },
-  {
-    name: 'Tests Unitarios en Odoo',
-    summary:
-      'Serie sobre cómo escribir tests unitarios robustos en Odoo: de romper producción a dormir tranquilo.',
-    tags: ['Odoo', 'Testing', 'Python'],
-    link: 'https://www.youtube.com/@ronny-montano',
+      'App de pagos instantáneos a proveedores de servicios y productos en Cuba con tarjetas de crédito o débito. Permite viajar a Cuba sin efectivo, con soporte 24h por locales.',
   },
 ];
+
+const dateFmt = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
 ---
-<Layout title="Portfolio — Ronny Montano" description="Trabajos y contenido destacado de Ronny Montano.">
-  <h1>Portfolio</h1>
-  <p class="muted">
-    Una selección de contenido técnico y proyectos en los que comparto experiencia sobre Odoo, OWL y Flutter.
-  </p>
+<Layout
+  title="Portfolio — Ronny Montano"
+  description="Canal de YouTube, videos recientes y proyectos destacados de Ronny Montano."
+>
+  <section class="hero">
+    <p class="eyebrow">YouTube</p>
+    <h1>@ronny-montano</h1>
+    <p class="lede">
+      Tutoriales, casos prácticos y deep-dives técnicos sobre Odoo, OWL,
+      Flutter y Python. Nuevo video cada pocos días.
+    </p>
+    <a
+      class="cta"
+      href="https://www.youtube.com/@ronny-montano"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Suscribirse al canal →
+    </a>
+  </section>
 
-  {featured.map((p) => (
-    <div class="card">
-      <h3>
-        <a href={p.link} target="_blank" rel="noopener noreferrer">{p.name}</a>
-      </h3>
-      <p>{p.summary}</p>
-      <div>
-        {p.tags.map((t) => <span class="tag">{t}</span>)}
+  {videos.length > 0 && (
+    <section>
+      <h2 class="section-title">Últimos videos</h2>
+      <div class="videos">
+        {videos.map((v) => (
+          <a
+            class="video"
+            href={v.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="thumb-wrap">
+              <img src={v.thumbnail} alt={v.title} loading="lazy" />
+            </div>
+            <div class="video-meta">
+              <h3>{v.title}</h3>
+              <time datetime={v.published}>{dateFmt.format(new Date(v.published))}</time>
+            </div>
+          </a>
+        ))}
       </div>
-    </div>
-  ))}
+    </section>
+  )}
 
-  <p class="muted" style="margin-top: 2rem;">
-    También puedes ver mis repositorios públicos en
-    <a href="https://github.com/ronny-montano" target="_blank" rel="noopener noreferrer">GitHub</a>.
-  </p>
+  <section>
+    <h2 class="section-title">Proyectos seleccionados</h2>
+    <div class="projects">
+      {projects.map((p) => (
+        <article class="project">
+          <header>
+            <h3>{p.name}</h3>
+            <span class="muted">{p.period}</span>
+          </header>
+          <p>{p.summary}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="more">
+    <p>
+      También público código en
+      <a
+        href="https://github.com/ronny-montano"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        github.com/ronny-montano
+      </a>.
+    </p>
+  </section>
 </Layout>
+
+<style>
+  .hero {
+    padding: 3rem 0 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .eyebrow {
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 36rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .cta {
+    display: inline-block;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .cta:hover {
+    background: var(--fg);
+    color: var(--bg);
+    text-decoration: none;
+  }
+
+  .section-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin: 0 0 1.5rem;
+  }
+
+  section { margin-bottom: 3.5rem; }
+
+  .videos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 540px) {
+    .videos { grid-template-columns: 1fr; }
+  }
+
+  .video {
+    color: var(--fg);
+    display: block;
+  }
+
+  .video:hover { text-decoration: none; }
+  .video:hover h3 { color: var(--accent); }
+
+  .thumb-wrap {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--border);
+    margin-bottom: 0.75rem;
+  }
+
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .video:hover .thumb-wrap img { transform: scale(1.03); }
+
+  .video-meta h3 {
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0 0 0.35rem;
+    transition: color 0.15s;
+  }
+
+  .video-meta time {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .projects {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .project:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .project h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .project p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 44rem;
+  }
+
+  .more {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
