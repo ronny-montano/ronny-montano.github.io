@@ -65,26 +65,181 @@ const skills = [
   'JavaScript',
 ];
 ---
-<Layout title="CV — Ronny Montano" description="Experiencia profesional, habilidades y servicios de Ronny Montano.">
-  <h1>CV</h1>
-  <p class="muted">Trayectoria profesional y áreas de especialización.</p>
+<Layout title="CV — Ronny Montano" description="Experiencia profesional y habilidades de Ronny Montano.">
+  <section class="hero">
+    <p class="kicker fade-in">CV</p>
+    <h1 class="display fade-in delay-1">
+      8+ años construyendo<br />
+      <span class="grad">soluciones empresariales</span>.
+    </h1>
+    <p class="lede fade-in delay-2">
+      Desde Cuba hasta España, pasando por México — desarrollo de ERP, móvil y backend.
+    </p>
+  </section>
 
-  <h2>Experiencia</h2>
-  {experience.map((job) => (
-    <div class="card">
-      <div class="row">
-        <strong>{job.role} · {job.company}</strong>
-        <span class="muted">{job.period}</span>
-      </div>
-      <div class="muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">{job.location}</div>
-      <ul class="clean">
-        {job.bullets.map((b) => <li>• {b}</li>)}
-      </ul>
+  <section data-reveal>
+    <h2>Experiencia</h2>
+    <ol class="timeline">
+      {experience.map((job) => (
+        <li class="job">
+          <div class="job-period mono">{job.period}</div>
+          <div class="job-body">
+            <h3>{job.role}</h3>
+            <p class="company">
+              <strong>{job.company}</strong> · <span class="muted">{job.location}</span>
+            </p>
+            <ul class="clean bullets">
+              {job.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section data-reveal>
+    <h2>Habilidades</h2>
+    <div class="skills">
+      {skills.map((s) => <span class="tag">{s}</span>)}
     </div>
-  ))}
-
-  <h2>Habilidades</h2>
-  <div>
-    {skills.map((s) => <span class="tag">{s}</span>)}
-  </div>
+  </section>
 </Layout>
+
+<style>
+  .hero {
+    padding: 2.5rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10%;
+    width: 60%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+    z-index: -1;
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .kicker {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+    font-weight: 600;
+  }
+
+  .display {
+    font-size: clamp(2rem, 1rem + 4vw, 3.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin: 0 0 1.25rem;
+    font-weight: 700;
+  }
+
+  .grad {
+    background: linear-gradient(120deg, var(--accent) 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 38rem;
+    margin: 0;
+  }
+
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10.5rem;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: 2rem;
+    padding: 1rem 0 1.75rem;
+    position: relative;
+  }
+
+  .job::before {
+    content: '';
+    position: absolute;
+    left: 10.25rem;
+    top: 1.5rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    z-index: 1;
+  }
+
+  .job-period {
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding-top: 0.4rem;
+    line-height: 1.4;
+  }
+
+  .job-body h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .company {
+    margin: 0 0 0.6rem;
+    font-size: 0.95rem;
+  }
+
+  .bullets li {
+    color: var(--muted);
+    font-size: 0.95rem;
+    padding-left: 1.1rem;
+    position: relative;
+    margin-bottom: 0.35rem;
+  }
+
+  .bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .skills { padding-top: 0.25rem; }
+
+  @media (max-width: 640px) {
+    .timeline::before { left: 5px; }
+    .job {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+      padding-left: 1.5rem;
+    }
+    .job::before { left: 1px; top: 0.5rem; }
+    .job-period { padding-top: 0; }
+  }
+</style>

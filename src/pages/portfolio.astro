@@ -10,12 +10,7 @@ const projects = [
     period: 'Mar. 2022 — Sept. 2022',
     summary:
       'Plataforma tecnológica móvil basada en Bluetooth que ofrece soluciones y servicios gratuitos a través de pequeños dispositivos inteligentes (beacons).',
-  },
-  {
-    name: 'RentalHo Pay',
-    period: 'Jun. 2022 — Ago. 2022',
-    summary:
-      'App de pagos instantáneos a proveedores de servicios y productos en Cuba con tarjetas de crédito o débito. Permite viajar a Cuba sin efectivo, con soporte 24h por locales.',
+    link: 'https://apps.apple.com/mx/app/ok-located/id1114782805',
   },
 ];
 
@@ -30,39 +25,46 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
   description="Canal de YouTube, videos recientes y proyectos destacados de Ronny Montano."
 >
   <section class="hero">
-    <p class="eyebrow">YouTube</p>
-    <h1>@ronny-montano</h1>
-    <p class="lede">
-      Tutoriales, casos prácticos y deep-dives técnicos sobre Odoo, OWL,
-      Flutter y Python. Nuevo video cada pocos días.
+    <p class="kicker fade-in">Portfolio</p>
+    <h1 class="display fade-in delay-1">
+      Comparto lo que aprendo<br />
+      <span class="grad">en YouTube</span>.
+    </h1>
+    <p class="lede fade-in delay-2">
+      Tutoriales, casos prácticos y deep-dives técnicos sobre Odoo, OWL, Flutter y Python.
+      Nuevo video cada pocos días.
     </p>
     <a
-      class="cta"
+      class="btn btn-primary fade-in delay-3"
       href="https://www.youtube.com/@ronny-montano"
       target="_blank"
       rel="noopener noreferrer"
     >
-      Suscribirse al canal →
+      Suscribirse al canal
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M6 12.5l4.5-4.5L6 3.5v9z" />
+      </svg>
     </a>
   </section>
 
   {videos.length > 0 && (
-    <section>
-      <h2 class="section-title">Últimos videos</h2>
+    <section data-reveal>
+      <h2>Últimos videos</h2>
       <div class="videos">
         {videos.map((v) => (
-          <a
-            class="video"
-            href={v.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a class="video" href={v.url} target="_blank" rel="noopener noreferrer">
             <div class="thumb-wrap">
               <img src={v.thumbnail} alt={v.title} loading="lazy" />
+              <div class="play-overlay" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="40" height="40">
+                  <circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.6)"/>
+                  <path fill="white" d="M10 8l6 4-6 4z"/>
+                </svg>
+              </div>
             </div>
             <div class="video-meta">
               <h3>{v.title}</h3>
-              <time datetime={v.published}>{dateFmt.format(new Date(v.published))}</time>
+              <time class="mono" datetime={v.published}>{dateFmt.format(new Date(v.published))}</time>
             </div>
           </a>
         ))}
@@ -70,14 +72,18 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
     </section>
   )}
 
-  <section>
-    <h2 class="section-title">Proyectos seleccionados</h2>
+  <section data-reveal>
+    <h2>Proyectos seleccionados</h2>
     <div class="projects">
       {projects.map((p) => (
         <article class="project">
           <header>
-            <h3>{p.name}</h3>
-            <span class="muted">{p.period}</span>
+            <h3>
+              {p.link
+                ? <a class="link-fancy" href={p.link} target="_blank" rel="noopener noreferrer">{p.name} <span class="arrow">↗</span></a>
+                : p.name}
+            </h3>
+            <span class="muted mono">{p.period}</span>
           </header>
           <p>{p.summary}</p>
         </article>
@@ -85,14 +91,10 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
     </div>
   </section>
 
-  <section class="more">
+  <section data-reveal class="more">
     <p>
       También público código en
-      <a
-        href="https://github.com/ronny-montano"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a class="link-fancy" href="https://github.com/ronny-montano" target="_blank" rel="noopener noreferrer">
         github.com/ronny-montano
       </a>.
     </p>
@@ -101,59 +103,56 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
 
 <style>
   .hero {
-    padding: 3rem 0 2.5rem;
+    padding: 2.5rem 0 3rem;
     border-bottom: 1px solid var(--border);
     margin-bottom: 3rem;
+    position: relative;
   }
 
-  .eyebrow {
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10%;
+    width: 60%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+    z-index: -1;
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .kicker {
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    margin: 0 0 0.5rem;
+    margin: 0 0 1rem;
+    font-weight: 600;
   }
 
-  .hero h1 {
-    font-size: 2.5rem;
+  .display {
+    font-size: clamp(2rem, 1rem + 4vw, 3.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin: 0 0 1.25rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0 0 0.75rem;
+  }
+
+  .grad {
+    background: linear-gradient(120deg, var(--accent) 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   .lede {
     font-size: 1.05rem;
     color: var(--muted);
-    max-width: 36rem;
-    margin: 0 0 1.5rem;
+    max-width: 38rem;
+    margin: 0 0 1.75rem;
   }
-
-  .cta {
-    display: inline-block;
-    padding: 0.6rem 1.1rem;
-    border: 1px solid var(--fg);
-    color: var(--fg);
-    border-radius: 6px;
-    font-size: 0.95rem;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .cta:hover {
-    background: var(--fg);
-    color: var(--bg);
-    text-decoration: none;
-  }
-
-  .section-title {
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-    margin: 0 0 1.5rem;
-  }
-
-  section { margin-bottom: 3.5rem; }
 
   .videos {
     display: grid;
@@ -174,11 +173,13 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
   .video:hover h3 { color: var(--accent); }
 
   .thumb-wrap {
+    position: relative;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 10px;
     background: var(--border);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid var(--border);
   }
 
   .thumb-wrap img {
@@ -187,22 +188,34 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s var(--ease-out);
   }
 
-  .video:hover .thumb-wrap img { transform: scale(1.03); }
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--dur) var(--ease-out);
+    pointer-events: none;
+  }
+
+  .video:hover .thumb-wrap img { transform: scale(1.04); }
+  .video:hover .play-overlay { opacity: 1; }
 
   .video-meta h3 {
     font-size: 0.98rem;
     font-weight: 500;
     line-height: 1.35;
-    margin: 0 0 0.35rem;
-    transition: color 0.15s;
+    margin: 0 0 0.3rem;
+    transition: color var(--dur) var(--ease-out);
   }
 
   .video-meta time {
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .projects {
@@ -211,8 +224,9 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
   }
 
   .project {
-    padding: 1.5rem 0;
+    padding: 1.4rem 0;
     border-top: 1px solid var(--border);
+    transition: background var(--dur) var(--ease-out);
   }
 
   .project:last-child {
@@ -234,6 +248,23 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
     font-weight: 600;
   }
 
+  .project h3 a {
+    color: var(--fg);
+  }
+
+  .project h3 a:hover {
+    color: var(--accent);
+  }
+
+  .project .arrow {
+    display: inline-block;
+    transition: transform var(--dur) var(--ease-out);
+  }
+
+  .project h3 a:hover .arrow {
+    transform: translate(2px, -2px);
+  }
+
   .project p {
     margin: 0;
     color: var(--muted);
@@ -242,6 +273,7 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
 
   .more {
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+    margin-top: 1rem;
   }
 </style>
