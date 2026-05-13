@@ -8,6 +8,32 @@ interface Props {
 
 const { title, description = 'Ronny Montano — sitio personal' } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const siteUrl = 'https://ronny-montano.github.io';
+const canonical = new URL(path === '/' ? '/' : path + '/', siteUrl).toString();
+
+const sameAs = [
+  'https://www.linkedin.com/in/ronny-montano/',
+  'https://www.youtube.com/@ronny-montano',
+  'https://github.com/ronny-montano',
+];
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Ronny Montano',
+  url: siteUrl,
+  jobTitle: 'Odoo Engineer',
+  worksFor: { '@type': 'Organization', name: 'Process Control' },
+  knowsAbout: ['Odoo', 'Python', 'OWL', 'Flutter', 'Dart', 'Django'],
+  sameAs,
+};
+
+// Para verificar la propiedad de la web en Google Search Console:
+// 1. Ve a https://search.google.com/search-console
+// 2. Añade la propiedad https://ronny-montano.github.io (tipo: prefijo de URL)
+// 3. Elige el método "Etiqueta HTML"
+// 4. Copia el valor del atributo content="..." y pégalo en la constante de abajo
+const googleSiteVerification = '';
 
 const nav = [
   { href: '/', label: 'Sobre mí' },
@@ -22,10 +48,19 @@ const nav = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
+    <meta name="author" content="Ronny Montano" />
+    {googleSiteVerification && (
+      <meta name="google-site-verification" content={googleSiteVerification} />
+    )}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Ronny Montano" />
+    {sameAs.map((url) => <link rel="me" href={url} />)}
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)}></script>
     <title>{title}</title>
   </head>
   <body>
