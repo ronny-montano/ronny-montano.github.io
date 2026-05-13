@@ -1,14 +1,27 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import me from '../assets/me.jpg';
 ---
 <Layout
   title="Ronny Montano — Odoo Engineer"
   description="Desarrollador de software especializado en Odoo, Python y Flutter. Tutoriales y casos prácticos en YouTube."
 >
-  <h1>Hola, soy Ronny Montano 👋</h1>
-  <p class="muted">
-    <strong>Odoo Engineer · Python · OWL</strong> — actualmente en Process Control.
-  </p>
+  <section class="hero">
+    <Image
+      src={me}
+      alt="Ronny Montano"
+      width={320}
+      height={320}
+      class="avatar"
+      loading="eager"
+    />
+    <div class="intro">
+      <h1>Hola, soy Ronny Montano 👋</h1>
+      <p class="role">Odoo Engineer · Python · OWL</p>
+      <p class="muted">Actualmente en Process Control.</p>
+    </div>
+  </section>
 
   <h2>Sobre mí</h2>
   <p>
@@ -35,3 +48,46 @@ import Layout from '../layouts/Layout.astro';
     <li>→ <a href="/contact">Contacto y redes</a></li>
   </ul>
 </Layout>
+
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 1rem 0 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 3px solid var(--border);
+  }
+
+  .intro h1 {
+    margin: 0 0 0.35rem;
+    font-size: 1.85rem;
+    letter-spacing: -0.015em;
+  }
+
+  .role {
+    font-weight: 600;
+    margin: 0 0 0.15rem;
+    color: var(--fg);
+  }
+
+  .intro .muted { margin: 0; }
+
+  @media (max-width: 520px) {
+    .hero {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .avatar { width: 120px; height: 120px; }
+    .intro h1 { font-size: 1.6rem; }
+  }
+</style>
