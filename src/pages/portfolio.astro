@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+  {
+    name: 'Nombre del proyecto 1',
+    summary: 'Una descripción breve (1-2 frases) explicando qué hace y tu rol.',
+    tags: ['Odoo', 'Python'],
+    link: 'https://example.com',
+  },
+  {
+    name: 'Nombre del proyecto 2',
+    summary: 'Otra descripción breve. Cambia o añade tantos como quieras.',
+    tags: ['Astro', 'Frontend'],
+    link: null,
+  },
+];
+---
+<Layout title="Portfolio — Ronny Montano" description="Proyectos destacados de Ronny Montano">
+  <h1>Portfolio</h1>
+  <p class="muted">Una selección de proyectos en los que he trabajado.</p>
+
+  {projects.map((p) => (
+    <div class="card">
+      <h3>
+        {p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer">{p.name}</a> : p.name}
+      </h3>
+      <p>{p.summary}</p>
+      <div>
+        {p.tags.map((t) => <span class="tag">{t}</span>)}
+      </div>
+    </div>
+  ))}
+
+  <p class="muted">
+    <small>Edita la lista en <code>src/pages/portfolio.astro</code>.</small>
+  </p>
+</Layout>

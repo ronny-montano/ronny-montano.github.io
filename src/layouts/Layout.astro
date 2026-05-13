@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Ronny Montano — sitio personal' } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const nav = [
+  { href: '/', label: 'Sobre mí' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/cv', label: 'CV' },
+  { href: '/contact', label: 'Contacto' },
+];
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">Ronny Montano</a>
+        <nav>
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              class={path === item.href || (item.href !== '/' && path.startsWith(item.href)) ? 'active' : ''}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      © {new Date().getFullYear()} Ronny Montano
+    </footer>
+  </body>
+</html>

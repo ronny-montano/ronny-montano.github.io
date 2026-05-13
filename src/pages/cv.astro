@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const experience = [
+  {
+    role: 'Tu puesto actual',
+    company: 'Empresa actual',
+    period: '2023 — Actualidad',
+    bullets: [
+      'Responsabilidad o logro 1.',
+      'Responsabilidad o logro 2.',
+    ],
+  },
+  {
+    role: 'Puesto anterior',
+    company: 'Empresa anterior',
+    period: '2020 — 2023',
+    bullets: [
+      'Responsabilidad o logro 1.',
+    ],
+  },
+];
+
+const education = [
+  {
+    title: 'Título / Grado',
+    school: 'Institución',
+    period: '20XX — 20XX',
+  },
+];
+
+const skills = ['Odoo', 'Python', 'PostgreSQL', 'JavaScript', 'Linux'];
+---
+<Layout title="CV — Ronny Montano" description="Experiencia y formación de Ronny Montano">
+  <h1>CV</h1>
+
+  <h2>Experiencia</h2>
+  {experience.map((job) => (
+    <div class="card">
+      <div class="row">
+        <strong>{job.role} · {job.company}</strong>
+        <span class="muted">{job.period}</span>
+      </div>
+      <ul class="clean" style="margin-top: 0.5rem;">
+        {job.bullets.map((b) => <li>• {b}</li>)}
+      </ul>
+    </div>
+  ))}
+
+  <h2>Formación</h2>
+  {education.map((e) => (
+    <div class="card">
+      <div class="row">
+        <strong>{e.title}</strong>
+        <span class="muted">{e.period}</span>
+      </div>
+      <div class="muted">{e.school}</div>
+    </div>
+  ))}
+
+  <h2>Habilidades</h2>
+  <div>
+    {skills.map((s) => <span class="tag">{s}</span>)}
+  </div>
+
+  <p class="muted" style="margin-top: 2rem;">
+    <small>Edita esta página en <code>src/pages/cv.astro</code>.</small>
+  </p>
+</Layout>

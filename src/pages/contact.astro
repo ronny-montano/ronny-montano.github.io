@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const links = [
+  { label: 'Email', value: 'ronny.montano@processcontrol.es', href: 'mailto:ronny.montano@processcontrol.es' },
+  { label: 'GitHub', value: '@ronny-montano', href: 'https://github.com/ronny-montano' },
+  { label: 'LinkedIn', value: 'añade tu perfil', href: 'https://www.linkedin.com/' },
+];
+---
+<Layout title="Contacto — Ronny Montano" description="Cómo contactar con Ronny Montano">
+  <h1>Contacto</h1>
+  <p>La mejor forma de localizarme:</p>
+
+  <ul class="clean">
+    {links.map((l) => (
+      <li>
+        <strong>{l.label}:</strong>{' '}
+        <a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
+          {l.value}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="muted" style="margin-top: 2rem;">
+    <small>Edita esta página en <code>src/pages/contact.astro</code>.</small>
+  </p>
+</Layout>
