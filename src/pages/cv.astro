@@ -64,16 +64,6 @@ const skills = [
   'PostgreSQL',
   'JavaScript',
 ];
-
-const services = [
-  'Desarrollo de aplicaciones',
-  'Desarrollo de base de datos',
-  'Desarrollo de iOS',
-  'Desarrollo de software personalizado',
-  'Desarrollo web',
-  'Gestión de contenido empresarial',
-  'Gestión en la nube',
-];
 ---
 <Layout title="CV — Ronny Montano" description="Experiencia profesional, habilidades y servicios de Ronny Montano.">
   <h1>CV</h1>
@@ -97,9 +87,4 @@ const services = [
   <div>
     {skills.map((s) => <span class="tag">{s}</span>)}
   </div>
-
-  <h2>Servicios</h2>
-  <ul class="clean">
-    {services.map((s) => <li>• {s}</li>)}
-  </ul>
 </Layout>
