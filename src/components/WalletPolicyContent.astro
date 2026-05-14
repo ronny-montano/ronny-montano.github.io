@@ -1,0 +1,261 @@
+---
+import { getLangFromUrl, type Lang } from '../i18n/content';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+
+const copy = {
+  es: {
+    kicker: 'Política de privacidad',
+    appName: 'Wallet',
+    appId: 'cu.wallet.app',
+    headline: ['Wallet,', 'privacidad por diseño.'] as [string, string],
+    lede: 'Wallet es una billetera de documentos 100% local. No recolectamos, transmitimos ni vendemos tus datos. Todo lo que guardas permanece cifrado en tu dispositivo.',
+    updated: 'Última actualización: 15 de mayo de 2026',
+    sections: [
+      {
+        h: 'Identidad del desarrollador',
+        body: `Esta app es desarrollada y mantenida por <strong>Ronny Montano</strong>. Para cualquier consulta relacionada con esta política puedes escribir a <a href="mailto:rmontano1992@gmail.com">rmontano1992@gmail.com</a>.`,
+      },
+      {
+        h: 'Qué datos recolecta Wallet',
+        body: `<strong>Ninguno.</strong> Wallet no recolecta, transmite ni envía a servidores ningún dato personal, identificador, foto, métrica de uso, telemetría o evento de analítica. La app no se conecta a internet para su funcionamiento.`,
+      },
+      {
+        h: 'Qué datos guardas tú en la app',
+        body: `Tú decides qué guardar. Puedes almacenar:
+          <ul>
+            <li>Nombre, categoría y notas de cada documento (DNI, tarjeta bancaria, reserva de hotel, vuelo, etc.).</li>
+            <li>Foto frontal y foto trasera de cada documento, con una nota opcional por imagen.</li>
+          </ul>
+          Estos datos viven únicamente en tu dispositivo.`,
+      },
+      {
+        h: 'Cómo se almacenan tus datos',
+        body: `<ul>
+          <li>La base de datos local es <strong>SQLite cifrada con SQLCipher</strong> (AES-256).</li>
+          <li>La clave de cifrado se genera en el primer arranque y se guarda en el almacenamiento seguro del sistema: <em>EncryptedSharedPreferences</em> en Android, <em>Keychain</em> (<code>firstUnlockThisDevice</code>) en iOS.</li>
+          <li>Las imágenes se guardan como archivos en el directorio privado de la app (<code>Documents/images/</code>), accesibles solo por Wallet.</li>
+        </ul>`,
+      },
+      {
+        h: 'Permisos del sistema',
+        body: `Wallet pide únicamente lo necesario para que tú añadas fotos a tus documentos:
+          <ul>
+            <li><strong>Cámara:</strong> para capturar la foto de un documento en el momento.</li>
+            <li><strong>Galería / fotos:</strong> para seleccionar una imagen ya existente.</li>
+          </ul>
+          Estos permisos se piden solo cuando intentas añadir una imagen. Si los niegas, el resto de la app sigue funcionando.`,
+      },
+      {
+        h: 'Compartir con terceros',
+        body: `<strong>No compartimos nada.</strong> La app no integra SDKs de analítica, publicidad, atribución, crash reporting ni redes sociales. No hay terceros con acceso a tus datos.`,
+      },
+      {
+        h: 'Cuentas, registro y publicidad',
+        body: `Wallet no tiene cuentas de usuario, registro, login ni publicidad. No hay compras dentro de la app.`,
+      },
+      {
+        h: 'Niños',
+        body: `Wallet no está dirigida a menores de 13 años. No recolectamos datos de ninguna persona, incluida la información de niños.`,
+      },
+      {
+        h: 'Eliminar tus datos',
+        body: `Como todos los datos viven únicamente en tu dispositivo, <strong>desinstalar la app elimina toda la información</strong> de forma definitiva: base cifrada, imágenes y clave de cifrado. No hay copias en servidores nuestros porque nunca salieron de tu dispositivo.`,
+      },
+      {
+        h: 'Cambios en esta política',
+        body: `Si en el futuro modificamos esta política, publicaremos la nueva versión en esta misma URL y actualizaremos la fecha de "Última actualización". Cambios sustanciales se reflejarán también en las notas de versión de la app.`,
+      },
+      {
+        h: 'Contacto',
+        body: `Si tienes dudas sobre esta política o quieres ejercer cualquier derecho relativo a tus datos, escríbenos a <a href="mailto:rmontano1992@gmail.com">rmontano1992@gmail.com</a>.`,
+      },
+    ],
+  },
+  en: {
+    kicker: 'Privacy policy',
+    appName: 'Wallet',
+    appId: 'cu.wallet.app',
+    headline: ['Wallet,', 'privacy by design.'] as [string, string],
+    lede: 'Wallet is a 100% local document wallet. We do not collect, transmit or sell your data. Everything you store stays encrypted on your device.',
+    updated: 'Last updated: May 15, 2026',
+    sections: [
+      {
+        h: 'Developer identity',
+        body: `This app is built and maintained by <strong>Ronny Montano</strong>. For any question about this policy you can email <a href="mailto:rmontano1992@gmail.com">rmontano1992@gmail.com</a>.`,
+      },
+      {
+        h: 'What data Wallet collects',
+        body: `<strong>None.</strong> Wallet does not collect, transmit or send any personal data, identifier, photo, usage metric, telemetry or analytics event to any server. The app does not need an internet connection to work.`,
+      },
+      {
+        h: 'What data you store in the app',
+        body: `You decide what to keep. You can store:
+          <ul>
+            <li>Name, category and notes for each document (ID, bank card, hotel booking, flight, etc.).</li>
+            <li>A front and back photo per document, with an optional note per image.</li>
+          </ul>
+          This data lives only on your device.`,
+      },
+      {
+        h: 'How your data is stored',
+        body: `<ul>
+          <li>The local database is <strong>SQLite encrypted with SQLCipher</strong> (AES-256).</li>
+          <li>The encryption key is generated on first launch and stored in the system secure storage: <em>EncryptedSharedPreferences</em> on Android, <em>Keychain</em> (<code>firstUnlockThisDevice</code>) on iOS.</li>
+          <li>Images are stored as files in the app's private directory (<code>Documents/images/</code>), accessible only by Wallet.</li>
+        </ul>`,
+      },
+      {
+        h: 'System permissions',
+        body: `Wallet only requests what is strictly needed to let you attach photos to your documents:
+          <ul>
+            <li><strong>Camera:</strong> to capture a document photo on the spot.</li>
+            <li><strong>Photo library / gallery:</strong> to pick an existing image.</li>
+          </ul>
+          These permissions are requested only when you try to add an image. If you deny them, the rest of the app keeps working.`,
+      },
+      {
+        h: 'Sharing with third parties',
+        body: `<strong>We share nothing.</strong> The app does not embed analytics, advertising, attribution, crash reporting or social SDKs. No third party has access to your data.`,
+      },
+      {
+        h: 'Accounts, sign-up and ads',
+        body: `Wallet has no user accounts, no sign-up, no login and no advertising. There are no in-app purchases.`,
+      },
+      {
+        h: 'Children',
+        body: `Wallet is not directed to children under 13. We do not collect data from anyone, children included.`,
+      },
+      {
+        h: 'Deleting your data',
+        body: `Since all data lives only on your device, <strong>uninstalling the app permanently removes everything</strong>: the encrypted database, the images and the encryption key. There is nothing on our servers because nothing ever left your device.`,
+      },
+      {
+        h: 'Changes to this policy',
+        body: `If we update this policy in the future, the new version will be published at this same URL and the "Last updated" date will change. Material changes will also be reflected in the app's release notes.`,
+      },
+      {
+        h: 'Contact',
+        body: `If you have questions about this policy or want to exercise any right regarding your data, email us at <a href="mailto:rmontano1992@gmail.com">rmontano1992@gmail.com</a>.`,
+      },
+    ],
+  },
+}[lang];
+---
+<section class="hero">
+  <p class="kicker fade-in">{copy.kicker} · {copy.appName} · <span class="mono">{copy.appId}</span></p>
+  <h1 class="display fade-in delay-1">
+    {copy.headline[0]}<br />
+    <span class="grad">{copy.headline[1]}</span>
+  </h1>
+  <p class="lede fade-in delay-2">{copy.lede}</p>
+  <p class="updated mono fade-in delay-3">{copy.updated}</p>
+</section>
+
+<section class="policy" data-reveal>
+  {copy.sections.map((s) => (
+    <article class="entry">
+      <h2>{s.h}</h2>
+      <div class="body" set:html={s.body} />
+    </article>
+  ))}
+</section>
+
+<style>
+  .hero {
+    padding: 2.5rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10%;
+    width: 60%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+    z-index: -1;
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .kicker {
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+    font-weight: 600;
+  }
+
+  .display {
+    font-size: clamp(2rem, 1rem + 4vw, 3.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin: 0 0 1.25rem;
+    font-weight: 700;
+  }
+
+  .grad {
+    background: linear-gradient(120deg, var(--accent) 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 42rem;
+    margin: 0 0 1rem;
+  }
+
+  .updated {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .policy { display: grid; gap: 2rem; max-width: 44rem; }
+
+  .entry h2 {
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.6rem;
+    color: var(--fg);
+  }
+
+  .entry .body {
+    color: var(--muted);
+    font-size: 0.97rem;
+    line-height: 1.65;
+  }
+
+  .entry .body :global(p) { margin: 0 0 0.6rem; }
+  .entry .body :global(p:last-child) { margin-bottom: 0; }
+  .entry .body :global(ul) {
+    margin: 0.3rem 0 0;
+    padding-left: 1.1rem;
+  }
+  .entry .body :global(li) { margin-bottom: 0.35rem; }
+  .entry .body :global(li:last-child) { margin-bottom: 0; }
+  .entry .body :global(strong) { color: var(--fg); font-weight: 600; }
+  .entry .body :global(code) {
+    font-family: var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+    font-size: 0.88em;
+    background: var(--accent-soft);
+    padding: 0.05em 0.35em;
+    border-radius: 4px;
+    color: var(--fg);
+  }
+  .entry .body :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+</style>
